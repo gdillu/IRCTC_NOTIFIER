@@ -29,3 +29,10 @@ const TrainNotificationSchema = new mongoose.Schema({
   });
 
 export const notificationModel = mongoose.models.notification || mongoose.model("notification",TrainNotificationSchema)
+
+const TrainChartStationSchema = new mongoose.Schema({
+    trainNumber : {type : String,required: true},
+    stations : {type : [String],required: true}
+})
+
+export const TrainChartStationModel = mongoose.model.TrainChartStation || mongoose.model('TrainChartStation', TrainChartStationSchema);

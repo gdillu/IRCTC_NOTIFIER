@@ -65,7 +65,7 @@ class Prettify {
     }
   }
 
-  getDayOnDate(DD, MM, YYYY) {
+   getDayOnDate(DD, MM, YYYY) {
     let date = new Date(YYYY, MM, DD);
     let day =
       date.getDay() >= 0 && date.getDay() <= 2

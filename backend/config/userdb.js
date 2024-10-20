@@ -10,4 +10,16 @@ const connectDB = async () => {
   }
 };
 
+const handleShutdown = (signal) => {
+  console.log(`${signal} signal received.`);
+  mongoose.connection.close(() => {
+    console.log('MongoDB connection closed');
+    process.exit(0); // Exit process with success
+  });
+};
+
+process.on('SIGINT', () => handleShutdown('SIGINT'));
+process.on('SIGTERM', () => handleShutdown('SIGTERM'));
+
+
 export default connectDB;
