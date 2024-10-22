@@ -1,0 +1,109 @@
+/* Background image for the entire page */
+.pageBackground {
+  background-image: url('../static/Images/Train.jpg'); /* Replace with your image path */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  display: flex;
+  flex-direction: row; /* This will make left and right panes align side-by-side */
+}
+
+.formContainer {
+  width: 100%; /* Make the form container take full width */
+  max-width: 400px; /* Set a maximum width for better control */
+  padding: 20px; /* Add padding inside the form */
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  gap: 15px; /* Add space between form fields */
+}
+
+/* Flex Container */
+.flexContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%; /* Make the container take full width */
+  height: 100%; /* Full page height */
+}
+
+/* Each pane takes 50% of the width */
+.leftPane, .rightPane {
+  width: 50%; /* Each pane gets 50% */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: rgba(225, 215, 215, 0.1); /* Light opacity for floating feel */
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  /* backdrop-filter: blur(5px); */
+  border-radius: 10px; /* Rounded corners */
+}
+
+/* Heading styling */
+.heading {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #f7f5f9;
+  margin-bottom: 1rem;
+}
+
+/* Button styling */
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  color: white;
+}
+
+/* Blue or Green background based on login state */
+.buttonBlue {
+  background-color: #2563EB; /* Blue color */
+}
+
+.buttonGreen {
+  background-color: #059669; /* Green color */
+}
+
+/* Hover effect for buttons */
+.button:hover {
+  opacity: 0.9;
+}
+
+/* Toggle button */
+.toggleButton {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 10px 20px;
+  border-radius: 8px;
+  color: #2563EB;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Optional: increase transparency when hovering */
+.toggleButton:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.textGray {
+  /* color: rgba(255, 255, 255, 0.8); */
+  color: rgba(244, 236, 236, 0.8);;
+  font-size: 2rem;
+  padding-bottom: 2rem;
+}
+
+.mt8 {
+  margin-top: 2rem;
+}
+
+.centeredHeading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw; 
+  margin: 0; 
+}
