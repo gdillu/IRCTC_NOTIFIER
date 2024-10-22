@@ -1,0 +1,26 @@
+/* InputField.module.css */
+
+/* Container for the input field */
+.inputFieldContainer {
+    display: flex;
+    align-items: center;
+    background-color: #f7fafc; /* Light gray background */
+    padding: 0.75rem; /* Padding */
+    border-radius: 0.5rem; /* Rounded corners */
+  }
+  
+  /* Icon styling */
+  .icon {
+    color: #a0aec0; /* Gray color for the icon */
+    margin-right: 0.75rem; /* Space between icon and input */
+  }
+  
+  /* Input field styling */
+  .inputField {
+    background-color: transparent; /* Transparent background */
+    outline: none; /* Remove outline */
+    flex: 1; /* Flex to take available space */
+    color: #2d3748; /* Dark gray text color */
+    /* Add additional styles if needed */
+  }
+  

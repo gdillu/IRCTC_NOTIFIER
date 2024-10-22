@@ -1,0 +1,129 @@
+.heading {
+    font-size: 1.875rem; /* text-3xl for small screens */
+    font-weight: bold;
+    margin-bottom: 2rem;
+    color: #2d3748; /* text-gray-800 */
+  }
+  
+  @media (min-width: 768px) {
+    .heading {
+      font-size: 2.25rem; /* text-4xl for medium and larger screens */
+    }
+  }
+
+.background{
+  background-image: url("../static/Images/Homepage.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+  
+ /* Root container styling */
+.flexContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f3f4f6; /* bg-gray-100 */
+}
+
+.flexContainerMd {
+  flex-direction: row;
+}
+
+/* Left pane (Form side) */
+.leftPane {
+  width: 100%;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.leftPaneMd {
+  width: 50%;
+  padding: 4rem;
+}
+
+/* Form container */
+.formContainer {
+  width: 100%;
+  max-width: 28rem;
+}
+
+/* Button styles */
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  color: white;
+}
+
+.buttonBlue {
+  background-color: #2563eb; /* bg-blue-600 */
+}
+
+.buttonGreen {
+  background-color: #059669; /* bg-green-600 */
+}
+
+.mt8 {
+  margin-top: 2rem;
+}
+
+/* Right pane (Text and toggle) */
+.rightPane {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.rightPaneMd {
+  width: 50%;
+  padding: 4rem;
+}
+
+/* Conditional background colors */
+.bgBlue {
+  background-color: #2563eb; /* bg-blue-600 */
+}
+
+.bgGreen {
+  background-color: #059669; /* bg-green-600 */
+}
+
+
+.headingMd {
+  font-size: 2.25rem; /* md:text-4xl */
+}
+
+.textGray {
+  color: #e5e7eb; /* text-gray-200 */
+  margin-bottom: 2rem; /* mb-8 */
+}
+
+/* Toggle button */
+.toggleButton {
+  background-color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  color: inherit; /* Will change based on login state */
+}
+
+.toggleColorBlue {
+  color: #2563eb;
+}
+
+.toggleColorGreen {
+  color: #059669;
+}
