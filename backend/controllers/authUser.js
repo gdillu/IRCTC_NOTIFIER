@@ -4,6 +4,7 @@ import dotenv from "dotenv"
 import { validationResult } from 'express-validator';
 import twilio from 'twilio';
 dotenv.config()
+
 const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
 export const login = async (req, res) => {
