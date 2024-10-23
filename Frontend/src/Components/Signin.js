@@ -1,14 +1,14 @@
 import InputField from "./InputField";
-import { ArrowRight, Lock, Phone, Shield, User } from "lucide-react";
+import { Phone, Shield } from "lucide-react";
 import classes from "./LoginSignUp.module.css";
 function Signin({ mobile, setMobile,verificationStatus,onVerify,onSubmit,code,setCode }) {
   return (
     <>
-    {verificationStatus !== "inProgress" && (
+    {verificationStatus === "pending" && (
         <form className="space-y-4" onSubmit={onSubmit}>
           <InputField
             icon={Phone}
-            placeholder="Verification code"
+            placeholder="Mobile"
             type="tel"
             value={mobile}
             onChange={setMobile}
@@ -18,7 +18,7 @@ function Signin({ mobile, setMobile,verificationStatus,onVerify,onSubmit,code,se
             className={`${classes.button} ${classes.buttonGreen}`}
             type="submit"
           >
-            Verify
+            Sign In
             
           </button>
         </form>

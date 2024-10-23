@@ -4,15 +4,12 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 100vh;
-  display: flex;
-  flex-direction: row; /* This will make left and right panes align side-by-side */
+  /* Removed height: 100vh; since it's handled by Tailwind */
 }
 
 .formContainer {
-  width: 100%; /* Make the form container take full width */
-  max-width: 400px; /* Set a maximum width for better control */
-  padding: 20px; /* Add padding inside the form */
+  /* Remove width and max-width as it's handled by Tailwind */
+  padding: 20px; /* Retain padding */
   display: flex;
   flex-direction: column; /* Stack children vertically */
   gap: 15px; /* Add space between form fields */
@@ -22,26 +19,25 @@
 .flexContainer {
   display: flex;
   flex-direction: row;
-  width: 100%; /* Make the container take full width */
-  height: 100%; /* Full page height */
+  /* Remove width and height as they are handled by Tailwind */
 }
 
 /* Each pane takes 50% of the width */
 .leftPane, .rightPane {
-  width: 50%; /* Each pane gets 50% */
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 20px; /* Retain padding */
   background-color: rgba(225, 215, 215, 0.1); /* Light opacity for floating feel */
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
-  /* backdrop-filter: blur(5px); */
   border-radius: 10px; /* Rounded corners */
 }
 
 /* Heading styling */
 .heading {
-  font-size: 2.5rem;
+
+
+  font-size: 2rem;
   font-weight: bold;
   color: #f7f5f9;
   margin-bottom: 1rem;
@@ -89,8 +85,7 @@
 }
 
 .textGray {
-  /* color: rgba(255, 255, 255, 0.8); */
-  color: rgba(244, 236, 236, 0.8);;
+  color: rgba(244, 236, 236, 0.8);
   font-size: 2rem;
   padding-bottom: 2rem;
 }

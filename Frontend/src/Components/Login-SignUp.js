@@ -6,8 +6,6 @@ import classes from "./LoginSignUp.module.css";
 
 const LoginSignupPage = () => {
   const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [mobile, setMobile] = useState("");
   const [isVerified, setIsVerified] = useState("pending");
@@ -89,19 +87,19 @@ const LoginSignupPage = () => {
   }
 
   return (
-    <div className={classes.pageBackground}>
+    <div className={`${classes.pageBackground} flex flex-row h-screen`}>
       {isVerified === "Verified" && (
         <div className={classes.centeredHeading}> {/* Apply centering here */}
-        <h1 className={classes.heading}>
+        <h1 className={`${classes.heading} text-3xl font-bold text-gray-100`}>
           Login Successful!
         </h1>
       </div>
       // </div>
       )}
       {isVerified !== "Verified" && (
-        <div className={`${classes.flexContainer} ${classes.flexContainerMd}`}>
-          <div className={`${classes.leftPane} ${classes.leftPaneMd}`}>
-            <div className={classes.formContainer}>
+        <div className={`${classes.flexContainer} w-full h-full`}>
+          <div className={`${classes.leftPane} w-1/2 flex items-center justify-center`}>
+            <div className={`${classes.formContainer} w-full max-w-md p-5`}>
               <AnimatePresence mode="wait">
                 <motion.div
                   key={isLogin ? "login" : "signup"}
@@ -111,7 +109,7 @@ const LoginSignupPage = () => {
                   variants={formVariants}
                   transition={{ duration: 0.3 }}
                 >
-                  <h1 className={classes.heading}>
+                  <h1 className={`${classes.heading} text-2xl`}>
                     {isLogin ? "Welcome back" : "Create account"}
                   </h1>
                   {!isLogin && (
@@ -151,23 +149,19 @@ const LoginSignupPage = () => {
             </div>
           </div>
           <div
-            className={`${classes.rightPane} ${
-              isLogin ? classes.bgBlue : classes.bgGreen
-            } ${classes.rightPaneMd}`}
+            className={`${classes.rightPane} w-1/2 ${isLogin ? classes.bgBlue : classes.bgGreen} flex flex-col items-center justify-center`}
           >
             <div className="text-center">
-              <h2 className={`${classes.heading} ${classes.headingMd}`}>
+            <h2 className={`${classes.heading} text-lg`}>
                 {isLogin ? "New here?" : "Already have an account?"}
               </h2>
-              <p className={classes.textGray}>
+              <p className={`${classes.textGray} text-xl`}>
                 {isLogin
                   ? "Sign Up for Your Next Journey!"
                   : "Sign in to access your account and continue your journey!"}
               </p>
               <button
-                className={`${classes.toggleButton} ${
-                  isLogin ? classes.toggleColorBlue : classes.toggleColorGreen
-                }`}
+                className={`${classes.toggleButton} bg-white px-5 py-2 rounded-lg text-blue-600`}
                 onClick={toggleMode}
               >
                 {isLogin ? "Sign Up" : "Sign In"}
