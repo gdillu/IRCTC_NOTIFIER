@@ -1,4 +1,4 @@
-import { jwt } from "twilio";
+import { jwt } from "jsonwebtoken   ";
 
 const verifyToken = (req, res, next) => {
   const token = req.header('Authorization').replace('Bearer ', '');

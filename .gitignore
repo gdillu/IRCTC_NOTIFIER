@@ -5,3 +5,5 @@
 /backend/*.log
 /backend/*.jpg
 /backend/*.pem
+/backend/irctc-seatcheck/node_modules
+/backend/seat-book/node_modules

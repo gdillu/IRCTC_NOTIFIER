@@ -11,6 +11,7 @@
   "author": "Dileep",
   "license": "ISC",
   "dependencies": {
+    "adbkit": "^2.11.1",
     "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
@@ -18,13 +19,17 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "express-validator": "^7.2.0",
+    "firebase": "^11.0.1",
     "irctc": "^1.0.0",
     "irctc-api": "^2.0.13",
     "jsonwebtoken": "^9.0.2",
     "moment-timezone": "^0.5.46",
     "mongoose": "^8.7.2",
+    "mysql": "^2.18.1",
     "node-schedule": "^2.1.1",
     "nodemon": "^3.1.7",
+    "sharp": "^0.33.5",
+    "tesseract.js": "^5.1.1",
     "twilio": "^5.3.3"
   }
 }

@@ -1,5 +1,5 @@
 let data2 = new String();
-
+import { TrainChartStationModel } from "../Model/trainModel.js";
 class Prettify {
   BetweenStation(string) {
     try {
@@ -74,12 +74,27 @@ class Prettify {
     return day;
   }
 
-  GetRoute(string) {
+  async GetRoute(string,trainNumber) {
     try {
       let data = string.split("~^");
       let arr = [];
+      let stations = [];
       let obj = {};
       let retval = {};
+      let lastRLStationCode = "";
+      let chartingStations = await TrainChartStationModel.findOne({ trainNumber })
+      .then((result) => {
+        if (result && result.stations) {
+          return result.stations; // Assuming `stations` is the field holding the charting stations
+        } else {
+          return []; // Return empty array if no charting stations found
+        }
+      })
+      .catch((err) => {
+        console.log(`Error fetching charting stations: ${err.message}`);
+        return []; // Return empty array in case of error
+      });
+  
       for (let i = 0; i < data.length; i++) {
         let data1 = data[i].split("~");
         data1 = data1.filter((el) => {
@@ -91,16 +106,56 @@ class Prettify {
         obj["depart"] = data1[4];
         obj["distance"] = data1[6];
         obj["day"] = data1[7];
-        obj["zone"] = data1[9];
+        if (chartingStations.length > 0){
+          if(chartingStations.includes(data1[1])){
+            lastRLStationCode = data1[1]
+          }
+        }
+        else{
+          if(data1.includes("RL")) {
+            lastRLStationCode = data1[1];
+            stations.push(lastRLStationCode)
+          }
+          if(i==0){
+            lastRLStationCode = data1[1];
+            stations.push(lastRLStationCode)
+          }
+        }
+        obj["chartingstation"] = lastRLStationCode;
         arr.push(obj);
         obj = {};
-      }
+        }
+  
       retval["success"] = true;
       retval["time_stamp"] = Date.now();
       retval["data"] = arr;
+
+      if(chartingStations.length === 0){
+        await this.insertTrainChartStations(trainNumber,stations);
+      }
       return retval;
     } catch (err) {
       console.log(err.message);
+    }
+  }
+  
+  async insertTrainChartStations(trainNumber, stations) {
+    try {
+      // Check if trainNumber already exists
+      let existingRecord = await TrainChartStationModel.findOne({ trainNumber });
+
+      if (!existingRecord) {
+        // If record does not exist, create a new entry
+        const newRecord = new TrainChartStationModel({
+          trainNumber: trainNumber,
+          stations: stations
+        });
+        const savedData = await newRecord.save();
+        console.log('New charting stations inserted:', savedData);
+      }
+    } catch (err) {
+      console.error('Error inserting charting stations:', err.message);
+      throw err; // Throw error to be caught in the calling function
     }
   }
 
@@ -152,6 +207,10 @@ class Prettify {
       console.warn(err.message);
     }
   }
+
+  
+
 }
+
 
 export default Prettify;
