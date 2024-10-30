@@ -12,7 +12,7 @@ import { psg_input_wait, sleep_for_login, sleep_for_availability_check} from "./
 import {headers as main_headers} from './browser_headers.mjs';
 import {LOG} from './logging.mjs';
 import { processImageAndRecognizeText } from './captchabreaker.mjs';
-import {https} from 'https';
+import https from 'https';
 class IRCTCSeat{
     constructor(){
         wrapper(axios);
