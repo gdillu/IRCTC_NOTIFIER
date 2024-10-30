@@ -17,9 +17,13 @@ class IRCTC{
     constructor(){
         wrapper(axios);
         const cookie_jar = new CookieJar();
+        const httpsAgent = new https.Agent({ 
+            rejectUnauthorized: false // Caution: Use only in development
+        });
         this.axios_instance = axios.create({ 
             jar:cookie_jar,
             withCredentials: true,
+            httpsAgent
         });
     }
     log_data(data,level="DEBUG"){

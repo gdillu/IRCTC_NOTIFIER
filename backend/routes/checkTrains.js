@@ -3,20 +3,11 @@ import UserAgent from "user-agents";
 import Prettify from "../Utils/trainPretty.js";
 import schedule from "node-schedule";
 import moment from "moment-timezone";
-import { TrainChartStationModel } from "../Model/trainModel.js";
 import { bookingModel } from "../Model/trainModel.js";
-import { IRCTCSeat } from "../irctc-seatcheck/index.mjs";
 import { IRCTCSEAT } from "./automation.js";
 const prettify = new Prettify();
 const router = Router();
 
-
-
-const extractTrainInfo = (data) => {
-    const startTime = data.from_time;
-    const startDate = data.from_date;
-    return { startTime ,startDate};
-};
 
 const checkIfTrainRunsOnDay = (runningDays, day) => {
   return runningDays[day] === '1';
@@ -53,7 +44,7 @@ const NotifyServer = async ({ bookingid, scheduleTime }) => {
         // Call the IRCTCSEAT function
         const response = await IRCTCSEAT(seatparams);
         if (!response) throw new Error("Error While Fetching Seats");
-        
+
 
         console.log("Seats are available:", response);
 
