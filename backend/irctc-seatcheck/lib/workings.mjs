@@ -29,7 +29,7 @@ class IRCTCSeat{
             adapter: require('axios/lib/adapters/http'), // Ensures HTTP adapter compatibility
         });
     }
-    }
+    
     log_data(data,level="DEBUG"){
         if (this.logging){
             this.log_file.log_function(data,level);
