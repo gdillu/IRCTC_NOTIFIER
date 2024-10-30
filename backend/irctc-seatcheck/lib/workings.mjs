@@ -16,15 +16,19 @@ import https from 'https';
 class IRCTCSeat{
     constructor(){
         wrapper(axios);
-        const cookie_jar = new CookieJar();
-        const httpsAgent = new https.Agent({ 
-            rejectUnauthorized: false // Caution: Use only in development
-        });
-        this.axios_instance = axios.create({ 
-            jar:cookie_jar,
+        this.cookieJar = new CookieJar();
+
+        // Create an HTTPS agent
+        this.agent = new https.Agent({ rejectUnauthorized: true });
+
+        // Create the Axios instance with cookies and HTTPS support, without setting baseURL
+        this.axiosInstance = axios.create({
             withCredentials: true,
-            httpsAgent
+            httpsAgent: this.agent,
+            jar: this.cookieJar,
+            adapter: require('axios/lib/adapters/http'), // Ensures HTTP adapter compatibility
         });
+    }
     }
     log_data(data,level="DEBUG"){
         if (this.logging){
