@@ -6,7 +6,7 @@ const router = Router();
 export async function IRCTCBOOK(params) {
     const irctc =   new IRCTC();
     const response = await irctc.book(params);
-    console.log(response);
+    return response
 };
 
 export async function IRCTCSEAT(params) {

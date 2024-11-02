@@ -4,7 +4,7 @@ import Prettify from "../Utils/trainPretty.js";
 import schedule from "node-schedule";
 import moment from "moment-timezone";
 import { bookingModel } from "../Model/trainModel.js";
-import { IRCTCSEAT } from "./automation.js";
+import { IRCTCSEAT,IRCTCBOOK } from "./automation.js";
 const prettify = new Prettify();
 const router = Router();
 
@@ -28,9 +28,10 @@ const NotifyServer = async ({ bookingid, scheduleTime }) => {
     const job = schedule.scheduleJob(parsedScheduleTime, async () => {
       try {
         const data = await bookingModel.findOne({ _id: bookingid });
-        if (!data) throw new Error("Data not found in Database");
 
-        const seatparams = {
+        if (!data) throw new Error("Data not found in Database");
+        await bookingModel.updateOne({ _id: bookingid }, { $set: { isCompleted: true } });
+        let seatparams = {
           class: data.class,
           quota: data.quota,
           train_number: data.train_number,
@@ -43,10 +44,21 @@ const NotifyServer = async ({ bookingid, scheduleTime }) => {
         
         // Call the IRCTCSEAT function
         const response = await IRCTCSEAT(seatparams);
-        if (!response) throw new Error("Error While Fetching Seats");
-
-
-        console.log("Seats are available:", response);
+        if (!response) {
+          throw new Error("Error While Fetching Seats");
+        }
+        seatparams = {
+          ...seatparams,
+          passengers : data.passengers,
+          UPI : data.UPI,
+          mobile_number : data.mobile_number,
+        }
+        const response_book = await IRCTCBOOK(seatparams);
+        if (response.qrCode && response.qrCode.includes("Status:CNF")) {
+          await bookingModel.updateOne({ _id: bookingid }, { $set: { isBooked: true } });// or any other action you want to take
+        } else {
+          console.log("Status not confirmed");
+        }
 
       } catch (err) {
         console.error("Error in scheduled job:", err.message);
