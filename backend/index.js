@@ -40,9 +40,9 @@ connectDB();
 const PORT = process.env.PORT || 80;
 
 // Create and start HTTP server
-// app.listen(PORT, () => {
-//   console.log(`Server Listening on  ${PORT}`)
-// })
+app.listen(PORT, () => {
+  console.log(`Server Listening on  ${PORT}`)
+})
 
 // Internal ping every 10 minutes to keep server active
 setInterval(() => {
