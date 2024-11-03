@@ -40,14 +40,13 @@ connectDB();
 const PORT = process.env.PORT || 80;
 
 // Create and start HTTP server
-const server = http.createServer(app);
-server.listen(PORT, () => {
-  console.log(`HTTP Server running on http://localhost:${PORT}`);
-});
+app.listen(PORT, () => {
+  console.log(`Server Listening on  ${PORT}`)
+})
 
 // Internal ping every 10 minutes to keep server active
 setInterval(() => {
-  fetch(`http://localhost:${PORT}/`) // Adjust to your server’s URL if deployed
+  fetch(`https://irctc-notifier-backend.onrender.com`) // Adjust to your server’s URL if deployed
     .then(response => response.text())
     .then(data => console.log("Keep-alive ping successful: ", data))
     .catch(error => console.error("Keep-alive ping failed: ", error));
