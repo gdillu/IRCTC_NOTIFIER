@@ -54,7 +54,7 @@ const NotifyServer = async ({ bookingid, scheduleTime }) => {
           mobile_number : data.mobile_number,
         }
         const response_book = await IRCTCBOOK(seatparams);
-        if (response.qrCode && response.qrCode.includes("Status:CNF")) {
+        if (response_book.qrCode && response_book.qrCode.includes("Status:CNF")) {
           await bookingModel.updateOne({ _id: bookingid }, { $set: { isBooked: true } });// or any other action you want to take
         } else {
           console.log("Status not confirmed");
