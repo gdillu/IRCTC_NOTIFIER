@@ -1,6 +1,6 @@
 /* Background image for the entire page */
 .pageBackground {
-  background-image: url('../static/Images/Train.jpg'); /* Replace with your image path */
+  background-image: url('../../static/Images/Train.jpg'); /* Replace with your image path */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -19,6 +19,7 @@
 .flexContainer {
   display: flex;
   flex-direction: row;
+  height: calc(100vh - 64px);
   /* Remove width and height as they are handled by Tailwind */
 }
 
@@ -29,7 +30,7 @@
   justify-content: center;
   padding: 20px; /* Retain padding */
   background-color: rgba(225, 215, 215, 0.1); /* Light opacity for floating feel */
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  /* box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);  */
   border-radius: 10px; /* Rounded corners */
 }
 

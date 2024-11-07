@@ -1,4 +1,4 @@
-import InputField from "./InputField";
+import InputField from "../InputField";
 import { Phone, Shield } from "lucide-react";
 import classes from "./LoginSignUp.module.css";
 function Signin({ mobile, setMobile,verificationStatus,onVerify,onSubmit,code,setCode }) {

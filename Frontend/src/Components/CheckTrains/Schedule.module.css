@@ -1,0 +1,45 @@
+.formContainer {
+    max-width: 75%;
+    margin: 10px auto;
+    /* border: 2px solid rgba(255, 255, 255, 0.2); */
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* backdrop-filter: blur(5px); */
+  }
+  
+  .heading {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .form {
+    
+    width: 100%;
+    max-width: 500px; /* Center form within the container */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center elements within form */
+    gap: 15px;
+  }
+  
+  .inputField {
+    min-width: 300px;
+    width: 100%;
+  }
+  
+  .labelHeading {
+    font-weight: bold;
+    font-size: 1.5rem; /* Increase this as needed */
+    color: #333; /* Optional: Customize color */
+  }
+
+  .noInteraction {
+    background-color: white;
+    border: none !important;
+    pointer-events: none;
+  }

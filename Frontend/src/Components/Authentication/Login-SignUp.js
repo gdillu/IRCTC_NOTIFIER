@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import SignUp from "./SignUp";
 import Signin from "./Signin";
 import classes from "./LoginSignUp.module.css";
+import ResponsiveAppBar from "../Layout/Header";
+import { RightPane } from "./Rightpane";
 
 const LoginSignupPage = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -87,7 +89,8 @@ const LoginSignupPage = () => {
   }
 
   return (
-    <div className={`${classes.pageBackground} flex flex-row h-screen`}>
+    <>
+    <ResponsiveAppBar/>
       {isVerified === "Verified" && (
         <div className={classes.centeredHeading}> {/* Apply centering here */}
         <h1 className={`${classes.heading} text-3xl font-bold text-gray-100`}>
@@ -136,41 +139,14 @@ const LoginSignupPage = () => {
                       setCode = {(e) => setCode(e.target.value)}
                     ></Signin>
                   )}
-                  <div className={classes.mt8}>
-                    {/* <button
-                            className={`${classes.button} ${isLogin ? classes.buttonBlue : classes.buttonGreen}`}
-                          >
-                            {isLogin ? "Sign In" : "Sign Up"}{" "}
-                            <ArrowRight className="ml-2" size={20} />
-                          </button> */}
-                  </div>
                 </motion.div>
               </AnimatePresence>
             </div>
           </div>
-          <div
-            className={`${classes.rightPane} w-1/2 ${isLogin ? classes.bgBlue : classes.bgGreen} flex flex-col items-center justify-center`}
-          >
-            <div className="text-center">
-            <h2 className={`${classes.heading} text-lg`}>
-                {isLogin ? "New here?" : "Already have an account?"}
-              </h2>
-              <p className={`${classes.textGray} text-xl`}>
-                {isLogin
-                  ? "Sign Up for Your Next Journey!"
-                  : "Sign in to access your account and continue your journey!"}
-              </p>
-              <button
-                className={`${classes.toggleButton} bg-white px-5 py-2 rounded-lg text-blue-600`}
-                onClick={toggleMode}
-              >
-                {isLogin ? "Sign Up" : "Sign In"}
-              </button>
-            </div>
-          </div>
+          <RightPane isLogin={isLogin} toggleMode={toggleMode}/>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

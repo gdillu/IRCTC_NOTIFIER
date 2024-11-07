@@ -1,0 +1,23 @@
+/* Background image for the entire page */
+.pageBackground {
+  background-image: url('../../static/Images/Train.jpg'); /* Replace with your image path */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* Removed height: 100vh; since it's handled by Tailwind */
+}
+
+
+.centerContainer {
+  display: flex;
+  align-items: center; /* Centers content vertically */
+  justify-content: center; /* Centers content horizontally */
+  height: calc(100vh - 64px); /* Full viewport height */
+}
+
+.centerText {
+  color: navy;
+  font-family: Neucha, sans-serif;
+  font-size: 4vh; /* Responsive font size */
+  margin-bottom: 0; /* Remove bottom margin to ensure centering */
+}
