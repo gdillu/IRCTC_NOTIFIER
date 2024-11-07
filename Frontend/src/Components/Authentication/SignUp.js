@@ -1,5 +1,5 @@
 import { ArrowRight, Lock, Phone, Shield, User } from "lucide-react";
-import InputField from "./InputField";
+import InputField from "../InputField";
 import classes from "./LoginSignUp.module.css";
 
 function SignUp({ code, setCode, onVerify, name, setName, mobile, setMobile, onSubmit , verificationStatus}) {

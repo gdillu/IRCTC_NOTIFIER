@@ -1,0 +1,41 @@
+/* MyForm.module.css */
+.formContainer {
+  width: 75%; /* Set the width of the form */
+  margin: 0 auto; /* Center the form horizontally */
+  padding-top: 50px; /* Optional: Add some top padding */
+}
+
+@media (max-width: 768px) {
+  .formContainer {
+    width: 90%; /* Adjust width on smaller screens */
+  }
+}
+
+.container {
+  width: 75%;
+  margin: 0 auto;
+}
+
+.translucentTable {
+  background-color: rgba(255, 255, 255, 0.6); /* Translucent background */
+  border-radius: 8px;
+}
+
+th, td {
+  font-weight: bold;
+  color: white; /* White font color */
+}
+
+thead {
+  background-color: rgba(0, 0, 0, 0.7); /* Slightly opaque header background */
+}
+
+.scrollableTableContainer {
+  max-height: 500px; /* Set your desired height */
+  overflow-y: auto;
+}
+
+.translucentTable {
+  width: 100%; /* Ensure the table takes full width */
+  table-layout: fixed; /* Use fixed layout to keep all columns aligned */
+}

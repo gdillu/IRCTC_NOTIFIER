@@ -1,0 +1,13 @@
+.dropdown {
+  min-width: 250px; /* Minimum width for dropdown */
+  width: 250px; /* Fixed width */
+  margin-right: 10px; /* Space between dropdowns */
+}
+
+.whiteText {
+  color: white; /* White text color */
+}
+
+.boldText {
+  font-weight: bold; /* Bold font */
+}
