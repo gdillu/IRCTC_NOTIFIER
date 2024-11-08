@@ -1,19 +1,21 @@
 import { useState } from "react";
-import { Button, Col, Container, Form, Row, Table } from "react-bootstrap";
+import { Alert, Button, Col, Collapse, Container, Form, Row, Table } from "react-bootstrap";
 import ResponsiveAppBar from "../Layout/Header";
 import styles from "./AddPassengers.module.css";
 import { X } from "lucide-react";
 
-const AddPassengers = ({goBackHandler, bookingInfo}) => {
+const AddPassengers = ({ goBackHandler, bookingInfo }) => {
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [sex, setSex] = useState("");
   const [food, setFood] = useState("");
   const [entries, setEntries] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showError, setShowError] = useState(false);
 
   const handleAdd = (event) => {
     event.preventDefault();
-    if (name && age && sex ) {
+    if (name && age && sex) {
       const newEntry = { name, age, sex, food };
       console.log(newEntry);
       setEntries([...entries, newEntry]);
@@ -30,33 +32,59 @@ const AddPassengers = ({goBackHandler, bookingInfo}) => {
     setEntries(updatedEntries);
   };
 
-  async function scheduleHandler(event){
+  async function scheduleHandler(event) {
     event.preventDefault();
-    const { fromStation, toStation,scheduleTime,journey_date,trainName, ...restOfBookingInfo } = bookingInfo;
-    
+    const {
+      fromStation,
+      toStation,
+      scheduleTime,
+      journey_date,
+      trainName,
+      ...restOfBookingInfo
+    } = bookingInfo;
+
     const postData = {
-        // scheduletime: bookingInfo.scheduleTime, 
-        scheduletime: "2024-11-05T14:12:00+05:30",
-        bookingparams: {
-          ...restOfBookingInfo,
-          passengers: entries,
-          journey_date:journey_date.replace(/-/g, "")
-        }
-      };
+      scheduletime: bookingInfo.scheduleTime,
+      // scheduletime: "2024-11-05T14:12:00+05:30",
+      bookingparams: {
+        ...restOfBookingInfo,
+        passengers: entries,
+        journey_date: journey_date.replace(/-/g, ""),
+      },
+    };
     console.log(postData);
 
-    const response = await fetch(
-      "https://irctc-notifier-backend.onrender.com/api/trains/notify",
-      {
-        method: "POST",
-        body: JSON.stringify(postData),
-        headers: {
-          "Content-Type": "application/json",
-        },
+    try {
+      const response = await fetch(
+        "https://irctc-notifier-backend.onrender.com/api/trains/notify",
+        {
+          method: "POST",
+          body: JSON.stringify(postData),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const resData = await response.json();
+      if (!response.ok) {
+        setErrorMessage(resData.msg);
+        setShowError(true);  // Show the error message div
+        console.log("In rest" +showError);
+      } else {
+        setErrorMessage("");
+        setShowError(false); // Hide the error message div on success
       }
-    );
-    const resData = await response.json();
-    
+    } catch (error) {
+      setErrorMessage("An error occurred. Please try again later.");
+      setShowError(true); // Show the error message div on API failure
+    }
+  }
+
+  const handleDismissError = () => {
+    setShowError(false); // Close the error alert
+    setErrorMessage(""); // Clear the error message to avoid stale state
+
+    console.log(showError);
   };
 
   return (
@@ -159,18 +187,40 @@ const AddPassengers = ({goBackHandler, bookingInfo}) => {
           </tbody>
         </Table>
       )}
+
+      {/* Collapsible error message */}
+      <Collapse in={showError}>
+        <div style={{ marginTop: "20px" }}>
+          <Alert
+            variant="danger"
+            onClose={handleDismissError} 
+            dismissible
+          >
+            {errorMessage}
+          </Alert>
+        </div>
+      </Collapse>
+
       <Form onSubmit={handleAdd} className={styles.form}>
         <Row>
           <Form.Group as={Col} controlId="formGridAddButton">
             <Form.Label>&nbsp;</Form.Label>
-            <Button variant="secondary" onClick={goBackHandler} className="w-100">
+            <Button
+              variant="secondary"
+              onClick={goBackHandler}
+              className="w-100"
+            >
               Back
             </Button>
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridAddButton">
             <Form.Label>&nbsp;</Form.Label>
-            <Button variant="primary"  className="w-100" onClick={scheduleHandler}>
+            <Button
+              variant="primary"
+              className="w-100"
+              onClick={scheduleHandler}
+            >
               Schedule
             </Button>
           </Form.Group>

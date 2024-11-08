@@ -39,3 +39,18 @@ thead {
   width: 100%; /* Ensure the table takes full width */
   table-layout: fixed; /* Use fixed layout to keep all columns aligned */
 }
+
+td {
+  vertical-align: middle; /* Center-align cell contents vertically */
+}
+
+td:last-child {
+  text-align: center; /* Center-align the button cell */
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
