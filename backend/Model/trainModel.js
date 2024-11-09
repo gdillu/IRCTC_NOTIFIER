@@ -6,7 +6,7 @@ const PassengerSchema = new mongoose.Schema({
       maxlength: 16, // Maximum length of 16 characters
   },
   age: { 
-      type: Number, 
+      type: String, 
       required: true, 
       min: 5, 
       max: 125 
@@ -128,6 +128,11 @@ const TrainBookingSchema = new mongoose.Schema({
       }
   },
   isCompleted : {
+    required : true,
+    default : false,
+    type : Boolean,
+  },
+  isBooked : {
     required : true,
     default : false,
     type : Boolean,

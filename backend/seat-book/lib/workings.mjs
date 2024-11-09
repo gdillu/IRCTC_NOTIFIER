@@ -74,8 +74,8 @@ class IRCTC{
         let imagePath = 'captcha.jpg';
         this.log_data("Proceeding for Captcha Answering");
         writeFileSync("./"+imagePath, this.captchaQuestion, 'base64');
-        const stdout = execFileSync(this.binaryPath, [imagePath,"-t"]);
-        console.log(stdout+" \nPlease type the above text and press enter");
+        // const stdout = execFileSync(this.binaryPath, [imagePath,"-t"]);
+        // console.log(stdout+" \nPlease type the above text and press enter");
         this.captcha_answer = await processImageAndRecognizeText();
         this.log_data("Received Captcha Answer Input");
         await this.send_login();

@@ -1,9 +1,12 @@
+// Import required modules
 import express from 'express';
 import dotenv from 'dotenv';
-import fs from 'fs';
 import http from 'http';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import fetch from 'node-fetch';
+
+// Import route handlers
 import authRoutes from './routes/userAuth.js';
 import checkTrains from './routes/checkTrains.js';
 import connectDB from './config/database.js'; // Firebase connection
@@ -11,33 +14,40 @@ import Booking from './routes/automation.js';
 
 // Load environment variables
 dotenv.config();
-console.log(process.env.PORT);
+console.log(`Port: ${process.env.PORT}`); // Log the port to check if it's loaded correctly
 
+// Initialize Express app
 const app = express();
-app.use(cors());
+app.use(cors()); // Enable CORS
+
 // Middleware
 app.use(bodyParser.json());
-app.get('/',(req,res)=>{
-  res.send("API is Working")
-})
+
+// Basic route to check API status
+app.get('/', (req, res) => {
+  res.send("API is Working");
+});
+
 // Routes
 app.use('/api/userAuth', authRoutes);
 app.use('/api/trains', checkTrains);
-app.use('/api/Booking', Booking);
-// This will initialize Firebase
-connectDB()
-// SSL/TLS Certificates
-// const key = fs.readFileSync('key.pem');
-// const cert = fs.readFileSync('cert.pem');
-// const options = { key, cert };
+app.use('/api/booking', Booking);
 
-// // Start the HTTPS server
-// const PORT = process.env.PORT || 443;
-// https.createServer(options, app).listen(PORT, () => {
-//   console.log(`HTTPS Server running on https://localhost:${PORT}`);
-// });
+// Initialize Firebase connection
+connectDB();
 
+// Set port from environment or default to 80
 const PORT = process.env.PORT || 80;
-http.createServer(app).listen(PORT, () => {
-  console.log(`HTTP Server running on http://localhost:${PORT}`);
-});
+
+// Create and start HTTP server
+app.listen(PORT, () => {
+  console.log(`Server Listening on  ${PORT}`)
+})
+
+// Internal ping every 10 minutes to keep server active
+setInterval(() => {
+  fetch(`https://irctc-notifier-backend.onrender.com`) // Adjust to your server’s URL if deployed
+    .then(response => response.text())
+    .then(data => console.log("Keep-alive ping successful: ", data))
+    .catch(error => console.error("Keep-alive ping failed: ", error));
+}, 600000); // 600,000 ms = 10 minutes
