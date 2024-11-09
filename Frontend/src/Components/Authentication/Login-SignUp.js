@@ -27,7 +27,7 @@ const LoginSignupPage = () => {
       phone : "+91"+mobile
     }
     const response = await fetch(
-      'http://localhost:5000/api/userAuth/login',{
+      'https://irctc-notifier-backend.onrender.com/api/userAuth/login',{
         method : 'POST',
         body: JSON.stringify(postData),
           headers:{
@@ -51,7 +51,7 @@ const LoginSignupPage = () => {
       phone: "+91"+mobile,
     };
     const response =  await fetch(
-      'http://localhost:5000/api/userAuth/register',{
+      'https://irctc-notifier-backend.onrender.com/api/userAuth/register',{
           method: 'POST',
           body: JSON.stringify(postData),
           headers:{
@@ -75,7 +75,7 @@ const LoginSignupPage = () => {
       phone: "+91"+mobile,
     };
     const response =  await fetch(
-      'http://localhost:5000/api/userAuth/verify',{
+      'https://irctc-notifier-backend.onrender.com/api/userAuth/verify',{
           method: 'POST',
           body: JSON.stringify(postData),
           headers:{
