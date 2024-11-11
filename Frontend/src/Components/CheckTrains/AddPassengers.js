@@ -161,7 +161,7 @@ const AddPassengers = ({ goBackHandler, bookingInfo }) => {
             <tr>
               <th>Name</th>
               <th>Age</th>
-              <th>Sex</th>
+              <th>Gender</th>
               {/* <th>Food</th> */}
               <th></th>
             </tr>

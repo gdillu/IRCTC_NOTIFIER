@@ -1,0 +1,54 @@
+/* Logout.module.css */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  .formContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 200px); /* Subtracting height of the AppBar (Assuming 64px is the height of the AppBar) */
+    padding-top: 20px; /* Optional: adds padding at the top */
+  }
+  
+  .form {
+    width: 100%;
+    max-width: 700px;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+    text-align: center;
+    border-radius: 8px;
+    /* box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); */
+    /* Removed background-color: #ffffff */
+  }
+  
+  .confirmationText {
+    font-size: 28px;
+    font-weight: 500;
+    margin-bottom: 30px;
+  }
+  
+  .buttonGroup {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .buttonGroup button {
+    font-size: 18px;
+    padding: 10px 20px;
+  }
+  

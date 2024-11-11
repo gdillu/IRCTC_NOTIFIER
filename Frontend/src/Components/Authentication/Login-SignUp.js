@@ -5,14 +5,17 @@ import Signin from "./Signin";
 import classes from "./LoginSignUp.module.css";
 import ResponsiveAppBar from "../Layout/Header";
 import { RightPane } from "./Rightpane";
+import { useDispatch } from "react-redux";
+import { authActions } from "../../Store/auth-store";
 
-const LoginSignupPage = () => {
+const LoginSignupPage = ({setIsLoggedIn}) => {
   const [isLogin, setIsLogin] = useState(true);
   const [name, setName] = useState("");
   const [mobile, setMobile] = useState("");
   const [isVerified, setIsVerified] = useState("pending");
   const [code, setCode] = useState("");
   const [jwtToken, setJwtToken] = useState(null);
+  const dispatch = useDispatch();
 
   const formVariants = {
     hidden: { opacity: 0, x: -30 },
@@ -86,6 +89,8 @@ const LoginSignupPage = () => {
     const resData = await response.json();
     setJwtToken(resData.token);
     setIsVerified("Verified");
+    dispatch(authActions.login({mobile,token : resData.token}))
+    setIsLoggedIn(true);
   }
 
   return (
