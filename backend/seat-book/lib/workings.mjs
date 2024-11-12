@@ -220,7 +220,7 @@ class IRCTC{
         else {
             this.log_data("Received Seats Availability from IRCTC Successfully");
             await this.get_boarding_stations();
-            return "Class Availability Fetched Successfully";
+            return data;
         }
     }
     async get_boarding_stations(){
@@ -717,12 +717,32 @@ class IRCTC{
         await this.load_irctc();
         await this.sign_in();
         await this.get_trains();
-        await this.get_class_availability();
-        await this.fill_booking_details();
-        await this.confirm_booking();
-        await this.select_paytm_upi_gateway();
-        const response = await this.get_booking_details();
-        return response;
+        const response = await this.get_class_availability();
+        const availablityStatus = response?.avlDayList[0]?.availablityStatus;
+const statusParts = availablityStatus ? availablityStatus.split("-") : [];
+const MAX_AVAILABLE_SEATS = parseInt(statusParts[1] || 0); // Extract the seat count from "CURR_AVA-003" or "AVAILABLE-003"
+
+// Check if availability status is either "CURR_AVA" or "AVAILABLE" and seats are available
+if (this.params.all && ((statusParts[0] === "CURR_AVA" || statusParts[0] === "AVAILABLE") && MAX_AVAILABLE_SEATS > 0)) {
+    // Limit the number of passengers if needed
+    if (params.passengers.length > MAX_AVAILABLE_SEATS) {
+        this.params.passengers = this.params.passengers.slice(0, MAX_AVAILABLE_SEATS);
+        // this.passengers = this.params.passengers.slice(0, MAX_AVAILABLE_SEATS);
+        initialize_booking_variables(this);
+    }
+    console.log(this.passengers);
+    
+    // Proceed with booking steps
+    await this.fill_booking_details();
+    await this.confirm_booking();
+    await this.select_paytm_upi_gateway();
+
+    const bookingResponse = await this.get_booking_details();
+    return bookingResponse;
+}
+        else{
+            return "Seats Not Available";
+        }
     }
     async last_transaction_depth(){
         const action_url = `https://www.irctc.co.in/eticketing/protected/mapps1/historySearchByTxnId/${this.profile_last_tid}?currentStatus=L`;

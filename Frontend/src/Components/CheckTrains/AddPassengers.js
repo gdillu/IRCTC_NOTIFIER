@@ -12,7 +12,8 @@ const AddPassengers = ({ goBackHandler, bookingInfo }) => {
   const [entries, setEntries] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [showError, setShowError] = useState(false);
-
+  const url = "http://localhost:5000"
+  const accessToken = localStorage.getItem("token")
   const handleAdd = (event) => {
     event.preventDefault();
     if (name && age && sex) {
@@ -56,12 +57,13 @@ const AddPassengers = ({ goBackHandler, bookingInfo }) => {
 
     try {
       const response = await fetch(
-        "https://irctc-notifier-backend.onrender.com/api/trains/notify",
+        `${url}/api/trains/notify`,
         {
           method: "POST",
           body: JSON.stringify(postData),
           headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${accessToken}`
           },
         }
       );

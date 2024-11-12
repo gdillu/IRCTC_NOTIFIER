@@ -1,19 +1,22 @@
-import { jwt } from "jsonwebtoken   ";
-
+import jwt from "jsonwebtoken";
+const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
 const verifyToken = (req, res, next) => {
-  const token = req.header('Authorization').replace('Bearer ', '');
+  const token = req.header('Authorization')?.replace('Bearer ', '');
 
-  if (!token) {
-    return res.status(401).json({ msg: 'No token, authorization denied' });
+  if (token == 'null') {
+    return res.redirect(`${frontendUrl}`);
   }
+  else{
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded.user;
     next();
-  } catch (err) {
-    res.status(401).json({ msg: 'Token is not valid' });
   }
+  catch (err) {
+    res.status(401).json({ msg: 'Bad Request' });
+  }
+}
 };
 
 export default verifyToken;

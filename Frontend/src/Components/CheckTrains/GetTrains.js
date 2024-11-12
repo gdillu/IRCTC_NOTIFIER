@@ -24,14 +24,27 @@ const MyForm = () => {
   const [trainData, setTrainData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const [minDate, setMinDate] = useState("");
+  const url = "http://localhost:5000"
+  const accessToken = localStorage?.getItem("token")
 
   useEffect(() => {
     const stations = stationList.map((station) => ({
       value: station.station_code,
-      label: station.station,
+      label: `${station.station}-${station.station_code}`,
     }));
     setSourceOptions(stations);
-    setDestinationOptions(stations); // Assuming destination uses the same list
+    setDestinationOptions(stations);
+    const today = new Date();
+
+  // Convert to Indian Standard Time (IST) by adding 5 hours and 30 minutes
+  const istOffset = 5.5 * 60 * 60 * 1000; // IST is UTC +5:30
+  const istToday = new Date(today.getTime() + istOffset);
+
+  // Format to YYYY-MM-DD for the date input field
+  const formattedDate = istToday.toISOString().split("T")[0];
+  setMinDate(formattedDate);
+     // Assuming destination uses the same list
   }, []);
 
   const formatDate = (isoDateString) => {
@@ -56,18 +69,21 @@ const MyForm = () => {
     };
     try {
       const response = await fetch(
-        "https://irctc-notifier-backend.onrender.com/api/trains/getTrains",
+        `${url}/api/trains/getTrains`,
         {
           method: "POST",
           body: JSON.stringify(postData),
           headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${accessToken}`
+            
           },
         }
       );
       const resData = await response.json();
-      console.log(resData);
-
+      if (resData.redirect) {
+        window.location.href = resData.redirect; // Redirect the user to the new path
+      }
       if (Array.isArray(resData.data)) {
         const filteredTrains = resData.data.map((train) => ({
           train_no: train.train_base.train_no,
@@ -78,6 +94,7 @@ const MyForm = () => {
           toCode: train.train_base.to_stn_code,
           chartingStation: train.train_base.chartingStation,
           scheduled_time: train.train_base.scheduled_time,
+          statement : train.train_base.statement,
           journey_date: date,
         }));
         setTrainData(filteredTrains);
@@ -140,31 +157,34 @@ const MyForm = () => {
       <Container fluid className={styles.formContainer}>
         <Form onSubmit={handleSubmit}>
           <Row className="align-items-center">
+          <Col xs={12} sm={3} className="mb-3">
+  <SearchableDropdown
+    label="From"
+    value={source}
+    onChange={setSource}
+    options={sourceOptions}
+    // Placeholder for 'Source'
+  />
+</Col>
+<Col xs={12} sm={3} className="mb-3">
+  <SearchableDropdown
+    label="To"
+    value={destination}
+    onChange={setDestination}
+    options={destinationOptions} // Use actual destination options here
+  />
+</Col>
+
             <Col xs={12} sm={3} className="mb-3">
-              <SearchableDropdown
-                label="Source"
-                value={source}
-                onChange={setSource}
-                options={sourceOptions}
-              />
-            </Col>
-            <Col xs={12} sm={3} className="mb-3">
-              <SearchableDropdown
-                label="Destination"
-                value={destination}
-                onChange={setDestination}
-                options={sourceOptions} // You can replace this with actual destination options
-              />
-            </Col>
-            <Col xs={12} sm={3} className="mb-3">
-              <Form.Group controlId="formDate">
-                <Form.Control
-                  type="date"
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
-                  required
-                />
-              </Form.Group>
+            <Form.Group controlId="formDate">
+  <Form.Control
+    type="date"
+    value={date}
+    onChange={(e) => setDate(e.target.value)}
+    required
+    min={minDate} // This sets the minimum date to today
+  />
+</Form.Group>
             </Col>
             <Col xs={12} sm={3} className="mb-3">
               <Button
@@ -218,21 +238,21 @@ const MyForm = () => {
                           (option) => option.value === train.chartingStation
                         )?.label || train.chartingStation}
                       </td>
-                      <td>{formatDate(train.scheduled_time)}</td>
-                      <td >
-                      <div className={styles.buttonContainer}>
-                        {train.scheduled_time ? (
-                          <Button
-                            variant="dark"
-                            onClick={() => onScheduleClickHandler(train)}
-                          >
-                            Schedule booking
-                          </Button>
-                        ) : (
-                          <span>Cannot book</span>
-                        )}
-                        </div>
-                      </td>
+                      <td colSpan={train.scheduled_time ? 1 : 2}>
+  {train.scheduled_time ? formatDate(train.scheduled_time) : <span>{train?.statement}</span>}
+</td>
+
+            {train.scheduled_time &&
+            <td>
+              <div className={styles.buttonContainer}>
+                <Button
+                  variant="dark"
+                  onClick={() => onScheduleClickHandler(train)}
+                >
+                  Schedule booking
+                </Button>
+              </div>
+            </td>}
                     </tr>
                   ))
                 )

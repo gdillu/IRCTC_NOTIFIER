@@ -16,6 +16,7 @@ const LoginSignupPage = ({setIsLoggedIn}) => {
   const [code, setCode] = useState("");
   const [jwtToken, setJwtToken] = useState(null);
   const dispatch = useDispatch();
+  const url = "http://localhost:5000"
 
   const formVariants = {
     hidden: { opacity: 0, x: -30 },
@@ -30,7 +31,7 @@ const LoginSignupPage = ({setIsLoggedIn}) => {
       phone : "+91"+mobile
     }
     const response = await fetch(
-      'https://irctc-notifier-backend.onrender.com/api/userAuth/login',{
+      `${url}/api/userAuth/login`,{
         method : 'POST',
         body: JSON.stringify(postData),
           headers:{
@@ -54,7 +55,7 @@ const LoginSignupPage = ({setIsLoggedIn}) => {
       phone: "+91"+mobile,
     };
     const response =  await fetch(
-      'https://irctc-notifier-backend.onrender.com/api/userAuth/register',{
+      `${url}/api/userAuth/register`,{
           method: 'POST',
           body: JSON.stringify(postData),
           headers:{
@@ -78,7 +79,7 @@ const LoginSignupPage = ({setIsLoggedIn}) => {
       phone: "+91"+mobile,
     };
     const response =  await fetch(
-      'https://irctc-notifier-backend.onrender.com/api/userAuth/verify',{
+      `${url}/api/userAuth/verify`,{
           method: 'POST',
           body: JSON.stringify(postData),
           headers:{

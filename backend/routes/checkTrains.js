@@ -4,7 +4,8 @@ import Prettify from "../Utils/trainPretty.js";
 import schedule from "node-schedule";
 import moment from "moment-timezone";
 import { bookingModel } from "../Model/trainModel.js";
-import { IRCTCSEAT,IRCTCBOOK } from "./automation.js";
+import { IRCTCBOOK } from "./automation.js";
+import verifyToken from "../Middleware/authUser.js";
 const prettify = new Prettify();
 const router = Router();
 
@@ -43,10 +44,7 @@ const NotifyServer = async ({ bookingid, scheduleTime }) => {
         };
         
         // Call the IRCTCSEAT function
-        const response = await IRCTCSEAT(seatparams);
-        if (!response) {
-          throw new Error("Error While Fetching Seats");
-        }
+        
         seatparams = {
           ...seatparams,
           passengers : data.passengers,
@@ -79,11 +77,11 @@ const NotifyServer = async ({ bookingid, scheduleTime }) => {
 };
 
 
-router.post("/notify", async (req, res) => {
+router.post("/notify", verifyToken,async (req, res) => {
   const { scheduletime, bookingparams } = req.body;
 
   try {
-    console.log("Received schedule time (with timezone offset):", scheduletime);
+    
 
     const bookingData = new bookingModel(bookingparams);
     const savedBooking = await bookingData.save();
@@ -94,9 +92,24 @@ router.post("/notify", async (req, res) => {
 
     res.status(200).json(result);
   } catch (err) {
-    console.error("Error in /notify route:", err.message);
-    res.status(500).send({ msg: "Train Data Couldn't be Fetched" });
+    // Log the full error for debugging purposes
+    
+  
+    // Check if there are validation errors and list the missing fields
+    const missingFields = err.errors ? Object.keys(err.errors).filter(field => err.errors[field].kind === 'required') : [];
+  
+    // Construct a message with missing fields
+    let errorMessage = 'The following fields are required: ';
+    if (missingFields.length > 0) {
+      errorMessage += missingFields.join(", ");
+    } else {
+      errorMessage = 'An unexpected error occurred. Please try again later.';
+    }
+  
+    // Send the response with the status 500 and the error message
+    res.status(500).send({ msg: errorMessage });
   }
+  
 });
 
 
@@ -110,7 +123,7 @@ const parseDateTime = (dateString, timeString) => {
 
 // Ensure moment-timezone is imported at the start
 
-router.post("/getTrains", async (req, resp) => {
+router.post("/getTrains", verifyToken,async (req, resp) => {
   const arr = [];
   const retval = {};
   const { from, to, date } = req.body;
@@ -188,6 +201,68 @@ router.post("/getTrains", async (req, resp) => {
               }
             }
           }
+        }
+      }
+    }
+
+    retval["success"] = true;
+    retval["time_stamp"] = Date.now();
+    retval["data"] = arr;
+    resp.json(retval);
+
+  } catch (err) {
+    console.log(err);
+    retval["success"] = false;
+    retval["time_stamp"] = Date.now();
+    retval["data"] = "Error occurred";
+    resp.json(retval);
+  }
+});
+
+router.post("/getTrains/noAuth", async (req, resp) => {
+  const arr = [];
+  const retval = {};
+  const { from, to, date } = req.body;
+
+  if (!date) {
+    retval["success"] = false;
+    retval["time_stamp"] = Date.now();
+    retval["data"] = "Please Add Specific Date";
+    resp.json(retval);
+    return;
+  }
+
+  const URL_Trains = `https://erail.in/rail/getTrains.aspx?Station_From=${from}&Station_To=${to}&DataSource=0&Language=0&Cache=true`;
+
+  try {
+    const userAgent = new UserAgent();
+    const response = await fetch(URL_Trains, {
+      method: "GET",
+      headers: { "User-Agent": userAgent.toString() },
+    });
+
+    const data = await response.text();
+    const json = prettify.BetweenStation(data);
+
+    if (!json["success"]) {
+      resp.json(json);
+      return;
+    }
+
+    const [DD, MM, YYYY] = date.split("-");
+    const dateObj = new Date(`${YYYY}-${MM}-${DD}`);
+    const day = dateObj.getDay();
+    const adjustedDay = (day + 6) % 7;
+
+    for (const ele of json["data"]) {
+      if (checkIfTrainRunsOnDay(ele["train_base"]["running_days"], adjustedDay)) {
+        const trainNo = ele["train_base"]["train_no"];
+        const trainData = await getTrainRoute(trainNo);
+
+        for (const station of trainData) {
+          if (station.source_stn_code === from) {
+              arr.push(ele)
+            }
         }
       }
     }
