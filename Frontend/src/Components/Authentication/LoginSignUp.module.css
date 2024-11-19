@@ -29,7 +29,7 @@
   align-items: center;
   justify-content: center;
   padding: 20px; /* Retain padding */
-  background-color: rgba(225, 215, 215, 0.1); /* Light opacity for floating feel */
+  /*background-color: rgba(225, 215, 215, 0.1); /* Light opacity for floating feel */
   /* box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);  */
   border-radius: 10px; /* Rounded corners */
 }
@@ -102,4 +102,10 @@
   height: 100vh;
   width: 100vw; 
   margin: 0; 
+}
+
+.text-red-500 {
+  color: red;
+  font-size: 0.875rem; /* Optional: Matches Tailwind's text-sm */
+  margin-top: 0.25rem;
 }

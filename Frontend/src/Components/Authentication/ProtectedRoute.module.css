@@ -1,0 +1,16 @@
+/* ProtectedRoute.module.css */
+.centerContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 64px); /* Adjust height to account for the AppBar */
+    text-align: center;
+  }
+  
+  .centerText {
+    font-family: Arial, sans-serif;
+    font-size: 2rem; /* Adjust as needed */
+    margin-bottom: 10px; /* Add space between the heading and the paragraph */
+  }
+  

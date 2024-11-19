@@ -1,8 +1,38 @@
-import { ArrowRight, Lock, Phone, Shield, User } from "lucide-react";
+import { ArrowRight, Phone, Shield, User } from "lucide-react";
 import InputField from "../InputField";
+import { useState } from "react";
 import classes from "./LoginSignUp.module.css";
 
-function SignUp({ code, setCode, onVerify, name, setName, mobile, setMobile, onSubmit , verificationStatus}) {
+function SignUp({
+  code,
+  setCode,
+  onVerify,
+  name,
+  setName,
+  mobile,
+  setMobile,
+  onSubmit,
+  verificationStatus,
+}) {
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    const newErrors = {};
+    if (!name.trim()) newErrors.name = "Full Name is required.";
+    if (!/^\d{10}$/.test(mobile)) {
+      newErrors.mobile = "Mobile number must be a 10-digit number.";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validate()) {
+      onSubmit(e); // Proceed with the submission logic
+    }
+  };
+
   return (
     <>
       {verificationStatus === "inProgress" && (
@@ -20,30 +50,39 @@ function SignUp({ code, setCode, onVerify, name, setName, mobile, setMobile, onS
             type="submit"
           >
             Verify
-            
           </button>
         </form>
       )}
 
       {verificationStatus === "pending" && (
-        <form className="space-y-4" onSubmit={onSubmit}>
-          <InputField
-            icon={User}
-            placeholder="Full Name"
-            type="text"
-            value={name}
-            onChange={setName}
-          />
+        <form className="space-y-4" onSubmit={handleSubmit}>
+          <div>
+            <InputField
+              icon={User}
+              placeholder="Full Name"
+              type="text"
+              value={name}
+              onChange={setName}
+              required
+            />
+            {errors.name && (
+              <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+            )}
+          </div>
 
-          
-
-          <InputField
-            icon={Phone}
-            placeholder="Mobile"
-            type="tel"
-            value={mobile}
-            onChange={setMobile}
-          />
+          <div>
+            <InputField
+              icon={Phone}
+              placeholder="Mobile"
+              type="tel"
+              value={mobile}
+              onChange={setMobile}
+              required
+            />
+            {errors.mobile && (
+              <p className="text-red-500 text-sm mt-1">{errors.mobile}</p>
+            )}
+          </div>
 
           <button
             className={`${classes.button} ${classes.buttonGreen}`}
