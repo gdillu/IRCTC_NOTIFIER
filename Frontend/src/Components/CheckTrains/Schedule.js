@@ -56,6 +56,22 @@ const Schedule = () => {
     }));
   };
 
+  const isFormValid = () => {
+    return (
+      bookingInfo.train_number &&
+      bookingInfo.trainName &&
+      bookingInfo.fromStation &&
+      bookingInfo.toStation &&
+      bookingInfo.journey_date &&
+      bookingInfo.class &&
+      bookingInfo.quota &&
+      bookingInfo.mobile_number &&
+      bookingInfo.UPI &&
+      bookingInfo.userID &&
+      bookingInfo.password
+    );
+  };
+
   return (
     <>
       <ResponsiveAppBar />
@@ -136,6 +152,7 @@ const Schedule = () => {
                   aria-label="Select Class"
                   value={bookingInfo.class}
                   onChange={handleChange}
+                  required
                 >
                   <option>Select class</option>
                   <option value="SL">Sleeper</option>
@@ -153,6 +170,7 @@ const Schedule = () => {
                   aria-label="Select Quota"
                   value={bookingInfo.quota}
                   onChange={handleChange}
+                  required
                 >
                   <option>Select quota</option>
                   <option value="GN">General</option>
@@ -170,6 +188,7 @@ const Schedule = () => {
                   type="number"
                   value={bookingInfo.mobile_number}
                   onChange={handleChange}
+                  required
                 />
               </Form.Group>
 
@@ -179,6 +198,7 @@ const Schedule = () => {
                   name="UPI"
                   value={bookingInfo.UPI}
                   onChange={handleChange}
+                  required
                 />
               </Form.Group>
             </Row>
@@ -189,6 +209,7 @@ const Schedule = () => {
                   name="userID"
                   value={bookingInfo.userID}
                   onChange={handleChange}
+                  required
                 />
               </Form.Group>
 
@@ -199,6 +220,7 @@ const Schedule = () => {
                   type="password"
                   value={bookingInfo.password}
                   onChange={handleChange}
+                  required
                 />
               </Form.Group>
             </Row>
@@ -207,6 +229,7 @@ const Schedule = () => {
               variant="primary"
               type="submit"
               onClick={() => setShowAddPassengers(true)}
+              disabled={!isFormValid()}
             >
               Add Passengers
             </Button>

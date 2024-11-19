@@ -103,3 +103,9 @@
   width: 100vw; 
   margin: 0; 
 }
+
+.text-red-500 {
+  color: red;
+  font-size: 0.875rem; /* Optional: Matches Tailwind's text-sm */
+  margin-top: 0.25rem;
+}
