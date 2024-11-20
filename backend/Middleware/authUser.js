@@ -4,7 +4,7 @@ const verifyToken = (req, res, next) => {
   const token = req.header('Authorization')?.replace('Bearer ', '');
 
   if (token == 'null') {
-    return res.redirect(`${frontendUrl}`);
+    return res.redirect('/');
   }
   else{
 

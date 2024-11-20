@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SignUp from "./SignUp";
 import Signin from "./Signin";
@@ -8,7 +8,7 @@ import { RightPane } from "./Rightpane";
 import { useDispatch } from "react-redux";
 import { authActions } from "../../Store/auth-store";
 import { Snackbar } from "@mui/material";
-
+import { useNavigate } from 'react-router-dom';
 const LoginSignupPage = ({ setIsLoggedIn }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [name, setName] = useState("");
@@ -18,6 +18,7 @@ const LoginSignupPage = ({ setIsLoggedIn }) => {
   const [jwtToken, setJwtToken] = useState(null);
   const dispatch = useDispatch();
   const [snackbar, setSnackbar] = useState({ message: "", type: "" });
+  const navigate = useNavigate();
 
   const formVariants = {
     hidden: { opacity: 0, x: -30 },
@@ -153,14 +154,17 @@ const LoginSignupPage = ({ setIsLoggedIn }) => {
   return (
     <>
       <ResponsiveAppBar />
-      {isVerified === "Verified" && (
-        <div className={classes.centeredHeading}>
-          <h1 className={`${classes.heading} text-3xl font-bold text-gray-100`}>
-            Login Successful!
-          </h1>
-        </div>
-        // </div>
-      )}
+      
+      {
+        useEffect(() => {
+          const token = localStorage.getItem("token");
+  
+          if (isVerified === "Verified" && token) {
+              // Redirect to /checkTrains page
+              navigate("/checkTrains");
+          }
+      }, [isVerified, navigate])
+      }
       {isVerified !== "Verified" && (
         <div className={`${classes.flexContainer} w-full h-full`}>
           <div

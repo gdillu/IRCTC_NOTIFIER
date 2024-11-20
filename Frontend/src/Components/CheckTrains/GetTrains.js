@@ -14,6 +14,7 @@ import styles from "./GetTrains.module.css"; // Import the CSS module
 import stationList from "../../static/Data/station_list.json"; // Import the JSON file
 import ResponsiveAppBar from "../Layout/Header";
 import { useNavigate } from "react-router-dom";
+import styles2 from "../Authentication/ProtectedRoute.module.css"; // Import the CSS module for styling
 
 const MyForm = () => {
   const [source, setSource] = useState("");
@@ -25,7 +26,7 @@ const MyForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [minDate, setMinDate] = useState("");
-  const url = "http://localhost:5000"
+  const url = "https://irctc-notifier-backend.onrender.com"
   const accessToken = localStorage?.getItem("token")
 
   useEffect(() => {
@@ -153,8 +154,16 @@ const MyForm = () => {
 
   return (
     <>
-      <ResponsiveAppBar />
-      <Container fluid className={styles.formContainer}>
+    <ResponsiveAppBar />
+    {
+        useEffect(() => {
+          if (accessToken === null) {
+              // Redirect to /checkTrains page
+              navigate("/login");
+          }
+      }, [accessToken, navigate])
+    }
+      {(accessToken !== null && accessToken.length > 0) ? (<Container fluid className={styles.formContainer}>
         <Form onSubmit={handleSubmit}>
           <Row className="align-items-center">
           <Col xs={12} sm={3} className="mb-3">
@@ -267,7 +276,14 @@ const MyForm = () => {
             </Table>
           </div>
         )}
-      </Container>
+      </Container>) : (<div className={styles2.centerContainer}>
+        <h2 className={styles2.centerText}>Please log in to access this page.</h2>
+        <p className={styles2.centerText}>
+          You need to be logged in to view this content.{" "}
+        </p>
+      </div>)
+      }
+      
     </>
   );
 };

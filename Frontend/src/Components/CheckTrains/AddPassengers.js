@@ -12,7 +12,7 @@ const AddPassengers = ({ goBackHandler, bookingInfo }) => {
   const [entries, setEntries] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [showError, setShowError] = useState(false);
-  const url = "http://localhost:5000"
+  const url = "https://irctc-notifier-backend.onrender.com"
   const accessToken = localStorage.getItem("token")
   const handleAdd = (event) => {
     event.preventDefault();
